@@ -347,6 +347,9 @@ h2.display,h3.display{margin:0}
 .rv-empty .rv-bar{cursor:default}
 .rv-empty #rvAvg{opacity:.5}
 .rv-empty .rv-filters{display:none}
+.rv-grid .empty{column-span:all;-webkit-column-span:all;break-inside:avoid}
+.rv-grid.solo{columns:auto}
+.rv-empty #rvAvg{display:none}
 
 /* ---------- prices ---------- */
 .price-sec{overflow:hidden}
@@ -1911,6 +1914,7 @@ function renderReviews(reset) {
     : rvState === 'error' ? '<div class="empty"><b>No pudimos cargar las reseñas</b>Revisa tu conexión e inténtalo de nuevo.</div>'
     : n ? '<div class="empty"><b>Ninguna reseña con este filtro</b>Prueba con otra opción.</div>'
     : '<div class="empty"><b>Sé el primero en dejar tu reseña</b>Cuéntanos cómo te fue con tu camiseta: ayudas a otros hinchas a elegir.</div>');
+  $('#rvGrid').classList.toggle('solo', !list.length);
   $('#rvMoreBtn').style.display = list.length > rvShown ? '' : 'none';
   $$('#rvGrid .rv').forEach((el, i) => { el.style.transitionDelay = (i % RV_PAGE) * 0.06 + 's'; cardIO.observe(el); });
   if ($('#rvBars').closest('.in') || $('#rvBars').getBoundingClientRect().top < innerHeight) requestAnimationFrame(() => $('#rvBars').classList.add('in'));
