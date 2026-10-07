@@ -1257,7 +1257,8 @@ const byId = Object.fromEntries(PRODUCTS.concat(ENCARGO).map(p => [p.id, p]));
 const basePrice = p => PRECIOS[p.tipo][0];
 const pSub = p => p.temporada || [p.color, p.manga].filter(Boolean).join(' · ');            // línea pequeña de la tarjeta
 const pFull = p => p.nombre + ' ' + [p.temporada, p.equipacion, p.color, p.manga].filter(Boolean).join(' · ');
-const waLink = (txt, num = WHATSAPP) => 'https://wa.me/' + num + (txt ? '?text=' + encodeURIComponent(txt) : '');
+// api.whatsapp.com/send directo: el salto wa.me -> api.whatsapp.com daña los emojis (salen como �)
+const waLink = (txt, num = WHATSAPP) => 'https://api.whatsapp.com/send?phone=' + num + (txt ? '&text=' + encodeURIComponent(txt) : '');
 /* ---------- estadísticas anónimas para el panel del dueño (sin nombres, teléfonos ni IP) ---------- */
 const rid = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), x => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join('');
 function trafficSource() {
