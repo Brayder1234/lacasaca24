@@ -1869,16 +1869,16 @@ $('#oForm').addEventListener('submit', e => {
   const code = orderCode();
   if (fromCart) clearTimeout(cartT);
   track(fromCart ? { t: 'checkout', code, items: items.map(trackItem), fromCart: true } : { t: 'checkout', code, items: items.map(trackItem) });
-  const msg = '🛒 *NUEVO PEDIDO · ' + code + '*\n\n' +
+  const msg = '⚽ *NUEVO PEDIDO · ' + code + '*\n\n' +
     '*Camisetas*\n' + items.map((c, i) => (i + 1) + '. ' + itemLine(c)).join('\n') + '\n\n' +
     '*Total:* ' + money(tot) + ' + envío\n\n' +
     '*Datos del cliente*\n' +
-    '👤 Nombre: ' + v.n + '\n' +
-    '📞 Teléfono: ' + v.t + '\n' +
-    '🏙️ Ciudad: ' + v.c + '\n' +
-    '📍 Dirección: ' + v.d + '\n' +
-    '🧭 Punto de referencia: ' + v.r + '\n\n' +
-    '¿Me confirman la disponibilidad de mi pedido? 🙌';
+    '▪ *Nombre:* ' + v.n + '\n' +
+    '☎ *Teléfono:* ' + v.t + '\n' +
+    '▪ *Ciudad:* ' + v.c + '\n' +
+    '▪ *Dirección:* ' + v.d + '\n' +
+    '▪ *Punto de referencia:* ' + v.r + '\n\n' +
+    '¿Me confirman la disponibilidad de mi pedido? ✅';
   open(waLink(msg), '_blank', 'noopener');
   pendingOrder = null;
   closeLayer();
