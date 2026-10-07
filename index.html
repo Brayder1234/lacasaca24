@@ -1258,7 +1258,9 @@ const basePrice = p => PRECIOS[p.tipo][0];
 const pSub = p => p.temporada || [p.color, p.manga].filter(Boolean).join(' · ');            // línea pequeña de la tarjeta
 const pFull = p => p.nombre + ' ' + [p.temporada, p.equipacion, p.color, p.manga].filter(Boolean).join(' · ');
 // api.whatsapp.com/send directo: el salto wa.me -> api.whatsapp.com daña los emojis (salen como �)
-const waLink = (txt, num = WHATSAPP) => 'https://api.whatsapp.com/send?phone=' + num + (txt ? '&text=' + encodeURIComponent(txt) : '');
+const waLink = (txt, num = WHATSAPP) => 'https://api.whatsapp.com/send/?phone=' + num + (txt ? '&text=' + encodeURIComponent(txt) : '') + '&type=phone_number&app_absent=0';
+// abrir como un enlace real (igual que la página de prueba), no con window.open
+const openWA = url => { const a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove(); };
 /* ---------- estadísticas anónimas para el panel del dueño (sin nombres, teléfonos ni IP) ---------- */
 const rid = n => Array.from(crypto.getRandomValues(new Uint8Array(n)), x => 'abcdefghijkmnpqrstuvwxyz23456789'[x % 32]).join('');
 function trafficSource() {
@@ -1869,17 +1871,17 @@ $('#oForm').addEventListener('submit', e => {
   const code = orderCode();
   if (fromCart) clearTimeout(cartT);
   track(fromCart ? { t: 'checkout', code, items: items.map(trackItem), fromCart: true } : { t: 'checkout', code, items: items.map(trackItem) });
-  const msg = '⚽ *NUEVO PEDIDO · ' + code + '*\n\n' +
+  const msg = '🛒 *NUEVO PEDIDO · ' + code + '*\n\n' +
     '*Camisetas*\n' + items.map((c, i) => (i + 1) + '. ' + itemLine(c)).join('\n') + '\n\n' +
     '*Total:* ' + money(tot) + ' + envío\n\n' +
     '*Datos del cliente*\n' +
-    '▪ *Nombre:* ' + v.n + '\n' +
-    '☎ *Teléfono:* ' + v.t + '\n' +
-    '▪ *Ciudad:* ' + v.c + '\n' +
-    '▪ *Dirección:* ' + v.d + '\n' +
-    '▪ *Punto de referencia:* ' + v.r + '\n\n' +
-    '¿Me confirman la disponibilidad de mi pedido? ✅';
-  open(waLink(msg), '_blank', 'noopener');
+    '👤 *Nombre:* ' + v.n + '\n' +
+    '📞 *Teléfono:* ' + v.t + '\n' +
+    '🏙️ *Ciudad:* ' + v.c + '\n' +
+    '📍 *Dirección:* ' + v.d + '\n' +
+    '🧭 *Punto de referencia:* ' + v.r + '\n\n' +
+    '¿Me confirman la disponibilidad de mi pedido? 🙌';
+  openWA(waLink(msg));
   pendingOrder = null;
   closeLayer();
 });
