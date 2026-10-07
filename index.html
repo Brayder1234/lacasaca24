@@ -993,7 +993,7 @@ textarea.inp{height:110px;padding:12px 14px;resize:vertical}
       <h2 class="display h2 chrome split" data-split>Preguntas</h2>
     </div>
     <div class="faq" id="faqList">
-      <div class="qa" data-reveal><button aria-expanded="false">¿Cómo hago mi pedido?<i></i></button><div class="ans"><div><p>Arma tu pedido aquí mismo (corte, talla y personalización) y toca «Finalizar por WhatsApp». Te llega el resumen listo para enviar; también puedes escribirnos por DM en Instagram a @lacasaca_24_.</p></div></div></div>
+      <div class="qa" data-reveal><button aria-expanded="false">¿Cómo hago mi pedido?<i></i></button><div class="ans"><div><p>Arma tu pedido aquí mismo (corte, talla y personalización) y toca «Finalizar por WhatsApp», llena tus datos de envío y te abrimos el chat con el pedido listo para enviar; también puedes escribirnos por DM en Instagram a @lacasaca_24_.</p></div></div></div>
       <div class="qa" data-reveal><button aria-expanded="false">¿Hacen envíos a mi ciudad?<i></i></button><div class="ans"><div><p>Sí, enviamos a toda Colombia. El valor y el tiempo de entrega dependen de tu ciudad y te los confirmamos por WhatsApp antes de despachar.</p></div></div></div>
       <div class="qa" data-reveal><button aria-expanded="false">¿Cuál es la diferencia entre aficionado y jugador?<i></i></button><div class="ans"><div><p>La versión jugador es más ajustada al cuerpo y su tela es más ligera, como la que usan en la cancha. El corte aficionado es más holgado. Revisa la guía de tallas: cada corte tiene sus propias medidas.</p></div></div></div>
       <div class="qa" data-reveal><button aria-expanded="false">¿Puedo ponerle nombre, número y parches?<i></i></button><div class="ans"><div><p>Claro. Puedes elegir solo nombre y número, o el paquete completo con los parches de la competición (Champions, Liga y más). El precio de cada opción aparece al elegirla.</p></div></div></div>
@@ -1148,6 +1148,29 @@ textarea.inp{height:110px;padding:12px 14px;resize:vertical}
       <input type="text" id="rfWeb" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <div class="err" id="rfErr">Completa la calificación, tu nombre y tu experiencia.</div>
       <button class="btn btn-w btn-block" type="submit" style="margin-top:14px">Publicar reseña</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="oModal" role="dialog" aria-modal="true" aria-labelledby="ofTitle">
+  <div class="modal-box rf">
+    <button class="x" data-close aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <form class="rf-in" id="oForm" novalidate autocomplete="on">
+      <h3 class="chrome" id="ofTitle">Tus datos de envío</h3>
+      <p style="margin:0 0 22px;color:var(--mute)">Llena estos datos y te abrimos WhatsApp con tu pedido listo para que un asesor confirme la disponibilidad.</p>
+      <div class="two">
+        <div class="field"><label for="ofName">Nombre</label><input class="inp" id="ofName" maxlength="60" autocomplete="name" placeholder="Nombre y apellido"></div>
+        <div class="field"><label for="ofPhone">Teléfono</label><input class="inp" id="ofPhone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="Ej. 300 000 0000"></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="ofCity">Ciudad</label><input class="inp" id="ofCity" maxlength="40" autocomplete="address-level2" placeholder="Ej. Barranquilla"></div>
+        <div class="field"><label for="ofAddr">Dirección</label><input class="inp" id="ofAddr" maxlength="100" autocomplete="street-address" placeholder="Calle, número, barrio"></div>
+      </div>
+      <div class="field"><label for="ofRef">Punto de referencia</label><input class="inp" id="ofRef" maxlength="100" placeholder="Ej. Frente al parque, casa blanca"></div>
+      <div class="err" id="ofErr">Completa todos los campos para continuar.</div>
+      <button class="btn btn-w btn-block" type="submit" style="margin-top:14px">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2Z"/></svg>
+        Enviar pedido por WhatsApp</button>
     </form>
   </div>
 </div>
@@ -1768,9 +1791,7 @@ $('#pmAdd').addEventListener('click', () => {
 });
 $('#pmBuy').addEventListener('click', () => {
   const it = currentItem(); if (!it) return;
-  const code = orderCode();
-  track({ t: 'checkout', code, items: [trackItem(it)] });
-  open(waLink('¡Hola La Casaca 24! Quiero pedir (pedido ' + code + '):\n\n• ' + itemLine(it) + '\n\nTotal: ' + money(itemPrice(it) * it.qty) + ' + envío.\n¿Me confirman disponibilidad? 🙌'), '_blank', 'noopener');
+  askCustomer([it], false);
 });
 function flyToCart(img) {
   if (RM) return;
@@ -1824,11 +1845,42 @@ function remove(row, i) { row.classList.add('rm'); setTimeout(() => { cart.splic
 $('#openCart').addEventListener('click', () => openLayer($('#drawer')));
 $('#checkout').addEventListener('click', () => {
   if (!cart.length) return;
-  const tot = cart.reduce((a, c) => a + itemPrice(c) * c.qty, 0);
+  askCustomer(cart.slice(), true);
+});
+/* datos del cliente antes de enviar el pedido */
+let pendingOrder = null;
+const CUS_KEY = 'lc24_cliente';
+function askCustomer(items, fromCart) {
+  pendingOrder = { items, fromCart };
+  let saved = {}; try { saved = JSON.parse(localStorage.getItem(CUS_KEY) || '{}'); } catch (e) {}
+  [['Name', 'n'], ['Phone', 't'], ['City', 'c'], ['Addr', 'd'], ['Ref', 'r']].forEach(([id, k]) => { $('#of' + id).value = saved[k] || ''; });
+  $('#ofErr').classList.remove('on');
+  openLayer($('#oModal'));
+}
+$('#oForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if (!pendingOrder) return;
+  const v = { n: $('#ofName').value.trim(), t: $('#ofPhone').value.trim(), c: $('#ofCity').value.trim(), d: $('#ofAddr').value.trim(), r: $('#ofRef').value.trim() };
+  if (!v.n || v.t.replace(/\D/g, '').length < 7 || !v.c || !v.d || !v.r) { $('#ofErr').classList.remove('on'); void $('#ofErr').offsetWidth; $('#ofErr').classList.add('on'); return; }
+  try { localStorage.setItem(CUS_KEY, JSON.stringify(v)); } catch (e) {}
+  const { items, fromCart } = pendingOrder;
+  const tot = items.reduce((a, c) => a + itemPrice(c) * c.qty, 0);
   const code = orderCode();
-  clearTimeout(cartT);
-  track({ t: 'checkout', code, items: cart.map(trackItem), fromCart: true });
-  open(waLink('¡Hola La Casaca 24! Quiero hacer este pedido (' + code + '):\n\n' + cart.map(c => '• ' + itemLine(c)).join('\n') + '\n\nTotal: ' + money(tot) + ' + envío.\nMi ciudad es: '), '_blank', 'noopener');
+  if (fromCart) clearTimeout(cartT);
+  track(fromCart ? { t: 'checkout', code, items: items.map(trackItem), fromCart: true } : { t: 'checkout', code, items: items.map(trackItem) });
+  const msg = '🛒 *NUEVO PEDIDO · ' + code + '*\n\n' +
+    '*Camisetas*\n' + items.map((c, i) => (i + 1) + '. ' + itemLine(c)).join('\n') + '\n\n' +
+    '*Total:* ' + money(tot) + ' + envío\n\n' +
+    '*Datos del cliente*\n' +
+    '👤 Nombre: ' + v.n + '\n' +
+    '📞 Teléfono: ' + v.t + '\n' +
+    '🏙️ Ciudad: ' + v.c + '\n' +
+    '📍 Dirección: ' + v.d + '\n' +
+    '🧭 Punto de referencia: ' + v.r + '\n\n' +
+    '¿Me confirman la disponibilidad de mi pedido? 🙌';
+  open(waLink(msg), '_blank', 'noopener');
+  pendingOrder = null;
+  closeLayer();
 });
 renderCart();
 
