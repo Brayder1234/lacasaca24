@@ -289,6 +289,16 @@ h2.display,h3.display{margin:0}
 .card-x .x-in span{font-size:13px;color:#444;max-width:24ch;line-height:1.35}
 .card-x .card-body{border-color:rgba(0,0,0,.1)}
 .card-x .meta,.card-x .price small{color:#555}
+/* la tarjeta de encargo es una franja horizontal arriba del catálogo */
+.card-x{grid-column:1/-1;display:grid;grid-template-columns:1fr auto;align-items:center}
+.card-x .card-media{aspect-ratio:auto;min-height:0;height:100%}
+.card-x .x-in{position:static;flex-direction:row;justify-content:flex-start;text-align:left;gap:clamp(14px,3vw,34px);padding:22px clamp(18px,3vw,36px)}
+.card-x .x-in img{width:clamp(56px,7vw,84px)}
+.card-x .x-in b{flex:0 1 auto}
+.card-x .x-in span{max-width:none;flex:1}
+.card-x .tags{display:none}
+.card-x .card-body{border:0;border-left:1px solid rgba(0,0,0,.1);padding:16px clamp(16px,2.6vw,32px);min-width:210px}
+@media (max-width:760px){.card-x{grid-template-columns:1fr}.card-x .x-in{flex-direction:column;text-align:center;padding:26px 18px 14px}.card-x .x-in span{max-width:30ch}.card-x .card-body{border-left:0;border-top:1px solid rgba(0,0,0,.1);min-width:0}}
 .card-x .add{border-color:rgba(0,0,0,.2)}
 .card-x:hover .add{background:#000;color:#fff;border-color:#000}
 .card-x:hover .add svg{transform:translateX(3px)}
@@ -1547,8 +1557,8 @@ function filtered() {
   else if (s === 'az') list.sort((a, b) => a.equipo.localeCompare(b.equipo, 'es') || a.anio - b.anio);
   else if (s === 'price') list.sort((a, b) => basePrice(a) - basePrice(b));
   else list.sort((a, b) => (b.dest ? 1 : 0) - (a.dest ? 1 : 0) || a.orden - b.orden);
-  // la tarjeta de encargo va al final de Camisetas Actuales (para equipos que aún no están en el catálogo)
-  if (state.sec === 'actual' && !state.team && state.cat === 'all' && terms.every(t => ENCARGO._s.includes(t) || list.length === 0)) list.push(ENCARGO);
+  // la tarjeta de encargo va al principio de Camisetas Actuales (para equipos que aún no están en el catálogo)
+  if (state.sec === 'actual' && !state.team && state.cat === 'all' && terms.every(t => ENCARGO._s.includes(t) || list.length === 0)) list.unshift(ENCARGO);
   return list;
 }
 PRODUCTS.forEach((p, i) => { p.orden = i; p._s = norm([p.nombre, p.equipo, p.temporada, p.equipacion, p.color, p.manga, p.grupo, p.tipo === 'retro' ? 'retro' : 'actual version jugador', p.tags || ''].join(' ')); });
