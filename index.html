@@ -315,6 +315,41 @@ h2.display,h3.display{margin:0}
 .empty{grid-column:1/-1;text-align:center;padding:70px 20px;border:1px dashed var(--line2);border-radius:var(--r);color:var(--mute)}
 .empty b{display:block;font:800 italic 30px/1 var(--cond);color:#fff;text-transform:uppercase;margin-bottom:10px}
 
+
+/* ---------- hero de la final ---------- */
+.hero-old[hidden]{display:none!important}
+.hero-final{position:relative;padding:84px 0 clamp(34px,5vw,64px);overflow:hidden;background:radial-gradient(ellipse 70% 40% at 50% 100%,rgba(255,255,255,.06),transparent 70%)}
+.fin-banner{width:min(100% - 32px,1500px,calc((100svh - 330px) * 1.79));min-width:min(100% - 32px,760px);margin:0 auto;border-radius:26px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px var(--line2)}
+.fin-banner img{display:block;width:100%;height:auto;aspect-ratio:1678/937}
+.fin-cta{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,4vw,60px);margin-top:clamp(-120px,-8vw,-16px);position:relative;z-index:2}
+.fin-side{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vw,20px)}
+.fin-shirt{width:clamp(130px,min(17vw,27svh),280px);height:auto;filter:drop-shadow(0 28px 34px rgba(0,0,0,.65));animation:finfloat 5.2s ease-in-out infinite;will-change:transform}
+.fin-shirt[hidden]{display:none}
+.fin-side{position:relative}
+.fin-side::before{content:"";position:absolute;left:50%;top:6%;width:min(78%,340px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%);z-index:-1;pointer-events:none}
+.fin-side.bo::before{background:radial-gradient(circle,rgba(40,90,230,.38),transparent 68%)}
+.fin-side.bo .fin-shirt{animation-delay:-2.4s}
+@keyframes finfloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-16px) rotate(1.5deg)}}
+.fin-btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;width:min(100%,380px);padding:clamp(14px,1.6vw,20px) clamp(16px,2.4vw,30px);border-radius:999px;font:800 italic clamp(15px,1.7vw,21px)/1 var(--cond);letter-spacing:.1em;text-transform:uppercase;border:2px solid;transition:transform .5s var(--ease),box-shadow .5s,background .3s,color .3s}
+.fin-btn svg{width:20px;height:20px;transition:transform .5s var(--ease)}
+.fin-btn:hover{transform:translateY(-3px)}
+.fin-btn:hover svg{transform:translateX(5px)}
+.fin-side.mg .fin-btn{background:#fff;color:#000;border-color:#fff;box-shadow:0 18px 44px -14px rgba(255,255,255,.5)}
+.fin-side.bo .fin-btn{background:#0a3fb8;color:#ffd21a;border-color:#ffd21a;box-shadow:0 18px 44px -14px rgba(255,210,26,.45)}
+.fin-sub{text-align:center;margin:clamp(16px,2.4vw,28px) 0 0;color:var(--mute);font:600 12px/1.4 var(--cond);letter-spacing:.22em;text-transform:uppercase}
+.fin-sub a{color:#fff;text-decoration:underline;text-underline-offset:4px}
+
+@media (min-width:1000px){
+  .fin-grid{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-areas:"mg banner bo";align-items:center;gap:clamp(10px,1.6vw,28px);width:min(100% - 40px,1760px);margin:0 auto}
+  .fin-cta{display:contents}
+  .fin-side.mg{grid-area:mg}.fin-side.bo{grid-area:bo}
+  .fin-banner{grid-area:banner;width:min(calc((100svh - 190px) * 1.79),58vw,1100px);min-width:0;margin:0}
+  .fin-shirt{width:min(100%,clamp(170px,17vw,300px))}
+  .fin-btn{width:min(100%,300px);font-size:clamp(14px,1.25vw,19px);letter-spacing:.07em;padding:16px 18px}
+  .hero-final{min-height:calc(100svh - 0px);display:flex;flex-direction:column;justify-content:center;padding:92px 0 30px}
+}
+@media (max-width:640px){.hero-final{padding-top:70px}.fin-banner{border-radius:16px;min-width:0}.fin-cta{margin-top:12px;gap:10px}.fin-btn{letter-spacing:.04em;gap:6px;padding:14px 12px;font-size:14px}.fin-btn svg{display:none}.fin-sub{letter-spacing:.12em;font-size:11px;padding:0 16px}}
+@media (prefers-reduced-motion:reduce){.fin-shirt{animation:none}}
 /* ---------- colecciones: retro / actuales ---------- */
 .secsw{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:6px;border-radius:26px;border:1px solid var(--line2);background:#0b0b0b;margin-bottom:22px;isolation:isolate}
 .sw-pill{position:absolute;z-index:-1;top:6px;bottom:6px;left:6px;width:calc((100% - 30px) / 4);border-radius:20px;background:#fff;box-shadow:0 14px 40px -14px rgba(255,255,255,.45);transition:transform .7s var(--ease)}
@@ -740,7 +775,29 @@ textarea.inp{height:110px;padding:12px 14px;resize:vertical}
 
 <main>
 <!-- ================= HERO ================= -->
-<section class="hero" id="inicio">
+<section class="hero-final" id="inicio" aria-label="Final Copa Sudamericana 2026">
+  <div class="fin-grid">
+  <div class="fin-banner" data-reveal="zoom">
+    <img src="img/final-banner-8e57705f.webp" width="1678" height="937" alt="Final Copa Sudamericana 2026 en Barranquilla, 21 de noviembre: Atlético Mineiro contra Boca Juniors" fetchpriority="high">
+  </div>
+  <div class="wrap fin-cta">
+    <div class="fin-side mg" data-reveal>
+      <img class="fin-shirt" src="img/final-mineiro-67a2f844.webp" alt="Camiseta del Atlético Mineiro" hidden>
+      <button type="button" class="fin-btn" data-support="Atlético Mineiro">Apoyo al Mineiro
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="fin-side bo" data-reveal>
+      <img class="fin-shirt" src="img/final-boca-b957b0b7.webp" alt="Camiseta de Boca Juniors" hidden>
+      <button type="button" class="fin-btn" data-support="Boca Juniors">Apoyo a Boca
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+  </div>
+  <p class="fin-sub" data-reveal>Elige tu equipo y ve sus camisetas · <a href="#catalogo">Ver todo el catálogo</a></p>
+</section>
+
+<!-- hero anterior (camisetas que hacen historia): oculto durante la final; para volver, cambiar class="hero-old" por class="hero" id="inicio" y quitar hidden -->
+<section class="hero-old" id="inicio-old" hidden>
   <div class="hero-bg" id="heroBg"></div>
   <div class="big24" aria-hidden="true">24</div>
   <div class="wrap hero-grid">
@@ -1551,6 +1608,15 @@ function setSec(s, keep) {
   buildCats(); renderSecs(); renderChips();
 }
 $('#secsw').addEventListener('click', e => { const b = e.target.closest('.sw'); if (!b || b.dataset.s === state.sec) return; setSec(b.dataset.s); render(true); });
+
+/* hero de la final: cada botón lleva a las camisetas de ese equipo */
+$$('.fin-shirt').forEach(im => { if (im.getAttribute('src')) im.hidden = false; });
+$$('[data-support]').forEach(b => b.addEventListener('click', () => {
+  const t = b.dataset.support;
+  setSec('actual'); state.cat = 'all'; state.q = ''; $('#q') && ($('#q').value = '');
+  state.team = t; $('#team').value = t; renderChips(); render(true);
+  $('#secsw').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}));
 buildCats(); renderSecs(); renderChips();
 $('#chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (!b) return; state.cat = b.dataset.c; renderChips(); render(true); b.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); });
 let qT;
