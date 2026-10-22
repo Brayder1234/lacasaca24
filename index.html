@@ -318,10 +318,11 @@ h2.display,h3.display{margin:0}
 
 /* ---------- hero de la final ---------- */
 .hero-old[hidden]{display:none!important}
-.hero-final{position:relative;padding:84px 0 clamp(34px,5vw,64px);overflow:hidden;background:radial-gradient(ellipse 70% 40% at 50% 100%,rgba(255,255,255,.06),transparent 70%)}
-.fin-banner{width:min(100% - 32px,1500px,calc((100svh - 330px) * 1.79));min-width:min(100% - 32px,760px);margin:0 auto;border-radius:26px;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px var(--line2)}
-.fin-banner img{display:block;width:100%;height:auto;aspect-ratio:1678/937}
-.fin-cta{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,4vw,60px);margin-top:clamp(-120px,-8vw,-16px);position:relative;z-index:2}
+.hero-final{position:relative;padding:0 0 clamp(34px,5vw,64px);overflow:hidden;background:radial-gradient(ellipse 70% 40% at 50% 100%,rgba(255,255,255,.06),transparent 70%)}
+.fin-banner{position:relative;width:100%;height:max(100svh,56.2vw);min-height:220px;margin:0;overflow:hidden}
+.fin-banner::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9%;background:linear-gradient(180deg,transparent,#050505);pointer-events:none}
+.fin-banner img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.fin-cta{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,4vw,60px);margin-top:clamp(-60px,-3vw,-10px);position:relative;z-index:2}
 .fin-side{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vw,20px)}
 .fin-shirt{width:clamp(130px,min(17vw,27svh),280px);height:auto;filter:drop-shadow(0 28px 34px rgba(0,0,0,.65));animation:finfloat 5.2s ease-in-out infinite;will-change:transform}
 .fin-shirt[hidden]{display:none}
@@ -339,16 +340,7 @@ h2.display,h3.display{margin:0}
 .fin-sub{text-align:center;margin:clamp(16px,2.4vw,28px) 0 0;color:var(--mute);font:600 12px/1.4 var(--cond);letter-spacing:.22em;text-transform:uppercase}
 .fin-sub a{color:#fff;text-decoration:underline;text-underline-offset:4px}
 
-@media (min-width:1000px){
-  .fin-grid{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);grid-template-areas:"mg banner bo";align-items:center;gap:clamp(10px,1.6vw,28px);width:min(100% - 40px,1760px);margin:0 auto}
-  .fin-cta{display:contents}
-  .fin-side.mg{grid-area:mg}.fin-side.bo{grid-area:bo}
-  .fin-banner{grid-area:banner;width:min(calc((100svh - 190px) * 1.79),58vw,1100px);min-width:0;margin:0}
-  .fin-shirt{width:min(100%,clamp(170px,17vw,300px))}
-  .fin-btn{width:min(100%,300px);font-size:clamp(14px,1.25vw,19px);letter-spacing:.07em;padding:16px 18px}
-  .hero-final{min-height:calc(100svh - 0px);display:flex;flex-direction:column;justify-content:center;padding:92px 0 30px}
-}
-@media (max-width:640px){.hero-final{padding-top:70px}.fin-banner{border-radius:16px;min-width:0}.fin-cta{margin-top:12px;gap:10px}.fin-btn{letter-spacing:.04em;gap:6px;padding:14px 12px;font-size:14px}.fin-btn svg{display:none}.fin-sub{letter-spacing:.12em;font-size:11px;padding:0 16px}}
+@media (max-width:640px){.hero-final{padding-top:64px}.fin-banner{height:auto;min-height:0}.fin-banner img{height:auto;aspect-ratio:1678/937}.fin-cta{margin-top:12px;gap:10px}.fin-btn{letter-spacing:.04em;gap:6px;padding:14px 12px;font-size:14px}.fin-btn svg{display:none}.fin-sub{letter-spacing:.12em;font-size:11px;padding:0 16px}}
 @media (prefers-reduced-motion:reduce){.fin-shirt{animation:none}}
 /* ---------- colecciones: retro / actuales ---------- */
 .secsw{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:6px;border-radius:26px;border:1px solid var(--line2);background:#0b0b0b;margin-bottom:22px;isolation:isolate}
@@ -777,7 +769,7 @@ textarea.inp{height:110px;padding:12px 14px;resize:vertical}
 <!-- ================= HERO ================= -->
 <section class="hero-final" id="inicio" aria-label="Final Copa Sudamericana 2026">
   <div class="fin-grid">
-  <div class="fin-banner" data-reveal="zoom">
+  <div class="fin-banner" >
     <img src="img/final-banner-8e57705f.webp" width="1678" height="937" alt="Final Copa Sudamericana 2026 en Barranquilla, 21 de noviembre: Atlético Mineiro contra Boca Juniors" fetchpriority="high">
   </div>
   <div class="wrap fin-cta">
