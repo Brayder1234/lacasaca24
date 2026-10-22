@@ -343,6 +343,19 @@ h2.display,h3.display{margin:0}
 @media (max-width:640px){.hero-final{padding-top:64px}.fin-banner{height:auto;min-height:0}.fin-banner img{height:auto;aspect-ratio:1678/937}.fin-cta{margin-top:12px;gap:10px}.fin-btn{letter-spacing:.04em;gap:6px;padding:14px 12px;font-size:14px}.fin-btn svg{display:none}.fin-sub{letter-spacing:.12em;font-size:11px;padding:0 16px}}
 @media (prefers-reduced-motion:reduce){.fin-shirt{animation:none}}
 
+
+/* cuenta regresiva de la final */
+.fin-count{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:clamp(18px,2.4vw,34px);margin-bottom:clamp(36px,5vw,70px);text-align:center}
+.fc-l{font:700 12px/1 var(--cond);letter-spacing:.32em;text-transform:uppercase;color:#ffd21a}
+.fc-boxes{display:flex;align-items:center;gap:clamp(6px,1.2vw,14px)}
+.fc-boxes div{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:clamp(64px,8vw,104px);padding:clamp(10px,1.4vw,16px) 8px;border-radius:18px;background:rgba(10,10,10,.72);border:1px solid var(--line2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.fc-boxes b{font:900 italic clamp(34px,4.6vw,62px)/.9 var(--display);font-stretch:62.5%;font-variant-numeric:tabular-nums}
+.fc-boxes small{font:600 10px/1 var(--cond);letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
+.fc-boxes i{font:900 clamp(22px,3vw,40px)/1 var(--display);color:var(--mute2);font-style:normal}
+.fc-when{color:var(--mute);font:500 13px/1.4 var(--body)}
+.fin-count.live .fc-boxes{display:none}
+.fin-count.live .fc-l{font-size:clamp(20px,3vw,34px);letter-spacing:.12em}
+@media (max-width:640px){.fin-count{margin:16px 0 18px}.fc-boxes i{display:none}.fc-boxes{gap:6px}.fc-boxes div{min-width:0;flex:1;padding:10px 4px;border-radius:14px}.fc-boxes{width:100%}.fc-when{font-size:12px}}
 /* barra de votos de la final */
 .fin-poll{margin-top:clamp(22px,3vw,40px);max-width:900px}
 .fp-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:10px}
@@ -790,6 +803,16 @@ textarea.inp{height:110px;padding:12px 14px;resize:vertical}
   <div class="fin-grid">
   <div class="fin-banner" >
     <img src="img/final-banner-8e57705f.webp" width="1678" height="937" alt="Final Copa Sudamericana 2026 en Barranquilla, 21 de noviembre: Atlético Mineiro contra Boca Juniors" fetchpriority="high">
+  </div>
+  <div class="wrap fin-count" id="finCount" aria-live="off">
+    <span class="fc-l">Faltan para la final</span>
+    <div class="fc-boxes">
+      <div><b id="fcD">00</b><small>días</small></div><i>:</i>
+      <div><b id="fcH">00</b><small>horas</small></div><i>:</i>
+      <div><b id="fcM">00</b><small>min</small></div><i>:</i>
+      <div><b id="fcS">00</b><small>seg</small></div>
+    </div>
+    <span class="fc-when">Sábado 21 de noviembre · Estadio Metropolitano, Barranquilla</span>
   </div>
   <div class="wrap fin-cta">
     <div class="fin-side mg" data-reveal>
@@ -1629,6 +1652,20 @@ function setSec(s, keep) {
 }
 $('#secsw').addEventListener('click', e => { const b = e.target.closest('.sw'); if (!b || b.dataset.s === state.sec) return; setSec(b.dataset.s); render(true); });
 
+/* cuenta regresiva: hora estimada (CONMEBOL aún no la confirma); cambiar aquí si la anuncian */
+const FINAL_KICKOFF = new Date('2026-11-21T16:00:00-05:00');   // 4:00 p. m. de Colombia
+(function countdown() {
+  const ms = FINAL_KICKOFF - Date.now(), pad = n => String(n).padStart(2, '0');
+  if (ms <= 0) {
+    $('#finCount').classList.add('live');
+    $('.fc-l').textContent = ms > -3 * 3600e3 ? '¡La final se juega hoy!' : '¡Se jugó la final!';
+    return;
+  }
+  const s = Math.floor(ms / 1000);
+  $('#fcD').textContent = pad(Math.floor(s / 86400)); $('#fcH').textContent = pad(Math.floor(s % 86400 / 3600));
+  $('#fcM').textContent = pad(Math.floor(s % 3600 / 60)); $('#fcS').textContent = pad(s % 60);
+  setTimeout(countdown, 1000 - Date.now() % 1000);
+})();
 /* hero de la final: cada botón suma un voto a ese equipo (barra compartida) y lleva a sus camisetas */
 $$('.fin-shirt').forEach(im => { if (im.getAttribute('src')) im.hidden = false; });
 const FINAL_API = PANEL_URL.startsWith('http') ? PANEL_URL.replace(/\/t$/, '/f') : '';
