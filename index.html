@@ -326,6 +326,7 @@ h2.display,h3.display{margin:0}
 .fin-side{display:flex;flex-direction:column;align-items:center;gap:clamp(10px,1.6vw,20px)}
 .fin-shirt{width:clamp(130px,min(17vw,27svh),280px);height:auto;filter:drop-shadow(0 28px 34px rgba(0,0,0,.65));animation:finfloat 5.2s ease-in-out infinite;will-change:transform}
 .fin-shirt[hidden]{display:none}
+.fin-shirt[src*="estudiantes-escudo"]{width:clamp(96px,min(11vw,18svh),190px);margin:clamp(20px,3vw,50px) 0}
 .fin-side{position:relative}
 .fin-side::before{content:"";position:absolute;left:50%;top:6%;width:min(78%,340px);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%);z-index:-1;pointer-events:none}
 .fin-side.bo::before{background:radial-gradient(circle,rgba(40,90,230,.38),transparent 68%)}
@@ -344,6 +345,29 @@ h2.display,h3.display{margin:0}
 @media (prefers-reduced-motion:reduce){.fin-shirt{animation:none}}
 
 
+
+/* selector de finales */
+.fin-tabs{position:absolute;z-index:6;top:96px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:5px;border-radius:999px;background:rgba(8,8,8,.62);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);isolation:isolate}
+.fin-tabs button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px clamp(16px,2.4vw,30px);border-radius:999px;color:#bbb;transition:color .4s}
+.fin-tabs b{font:900 italic clamp(16px,1.7vw,22px)/1 var(--display);font-stretch:62.5%;text-transform:uppercase;letter-spacing:.02em}
+.fin-tabs small{font:600 9.5px/1 var(--cond);letter-spacing:.2em;text-transform:uppercase;opacity:.8}
+.fin-tabs button.on{color:#000}
+.fin-pill{position:absolute;z-index:-1;top:5px;bottom:5px;left:5px;width:calc(50% - 7px);border-radius:999px;background:linear-gradient(180deg,#ffe58a,#e4b22b);box-shadow:0 10px 30px -8px rgba(228,178,43,.7);transition:transform .6s cubic-bezier(.22,1,.36,1)}
+.fin-tabs[data-i="1"] .fin-pill{transform:translateX(calc(100% + 4px))}
+.fin-slide[hidden]{display:none}
+.fin-slide.in{animation:finin .7s cubic-bezier(.22,1,.36,1)}
+@keyframes finin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* colores de la Libertadores */
+.fin-slide[data-final="lib"] .fin-side.mg .fin-btn{background:#0b6b3a;color:#fff;border-color:#fff;box-shadow:0 18px 44px -14px rgba(11,107,58,.8)}
+.fin-slide[data-final="lib"] .fin-side.bo .fin-btn{background:#fff;color:#d3121f;border-color:#d3121f;box-shadow:0 18px 44px -14px rgba(211,18,31,.6)}
+.fin-slide[data-final="lib"] .fin-side.mg::before{background:radial-gradient(circle,rgba(20,150,80,.35),transparent 68%)}
+.fin-slide[data-final="lib"] .fin-side.bo::before{background:radial-gradient(circle,rgba(220,30,40,.3),transparent 68%)}
+.fin-slide[data-final="lib"] .fp-mg{background:linear-gradient(90deg,#0a5c32,#0b6b3a);color:#fff}
+.fin-slide[data-final="lib"] .fp-bo{background:repeating-linear-gradient(90deg,#d3121f 0 14px,#fff 14px 28px);color:#000}
+.fin-slide[data-final="lib"] .fp-bo b,.fin-slide[data-final="lib"] .fp-bo span{background:#fff;padding:3px 6px;border-radius:6px}
+.fin-slide[data-final="lib"] .fp-knob{background:#e4b22b;box-shadow:0 0 0 2px #e4b22b,0 6px 20px rgba(0,0,0,.5)}
+.fin-slide[data-final="lib"] .fc-l{color:#e4b22b}
+@media (max-width:640px){.fin-tabs{position:relative;top:auto;left:auto;transform:none;margin:72px 16px 12px;display:grid}.fin-tabs button{padding:9px 6px}.fin-tabs small{font-size:8.5px;letter-spacing:.12em}.hero-final{padding-top:0}}
 /* cuenta regresiva de la final */
 .fin-count{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:clamp(18px,2.4vw,34px);margin-bottom:clamp(36px,5vw,70px);text-align:center}
 .fc-l{font:700 12px/1 var(--cond);letter-spacing:.32em;text-transform:uppercase;color:#ffd21a}
@@ -799,44 +823,81 @@ textarea.inp{height:110px;padding:12px 14px;resize:vertical}
 
 <main>
 <!-- ================= HERO ================= -->
-<section class="hero-final" id="inicio" aria-label="Final Copa Sudamericana 2026">
-  <div class="fin-grid">
-  <div class="fin-banner" >
-    <img src="img/final-banner-8e57705f.webp" width="1678" height="937" alt="Final Copa Sudamericana 2026 en Barranquilla, 21 de noviembre: Atlético Mineiro contra Boca Juniors" fetchpriority="high">
+<section class="hero-final" id="inicio" aria-label="Finales de la Sudamericana y la Libertadores 2026">
+  <div class="fin-tabs" role="tablist" aria-label="Elige la final">
+    <span class="fin-pill" aria-hidden="true"></span>
+    <button type="button" role="tab" data-fin="sud"><b>Sudamericana</b><small>21 nov · Barranquilla</small></button>
+    <button type="button" role="tab" data-fin="lib"><b>Libertadores</b><small>28 nov · Montevideo</small></button>
   </div>
-  <div class="wrap fin-count" id="finCount" aria-live="off">
-    <span class="fc-l">Faltan para la final</span>
-    <div class="fc-boxes">
-      <div><b id="fcD">00</b><small>días</small></div><i>:</i>
-      <div><b id="fcH">00</b><small>horas</small></div><i>:</i>
-      <div><b id="fcM">00</b><small>min</small></div><i>:</i>
-      <div><b id="fcS">00</b><small>seg</small></div>
+  <div class="fin-slide" data-final="sud">
+    <div class="fin-banner"><img src="img/final-banner-8e57705f.webp" width="1678" height="937" alt="Final Copa Sudamericana 2026 en Barranquilla, 21 de noviembre: Atlético Mineiro contra Boca Juniors" fetchpriority="high"></div>
+    <div class="wrap fin-count" aria-live="off">
+      <span class="fc-l">Faltan para la final</span>
+      <div class="fc-boxes">
+        <div><b class="fc-d">00</b><small>días</small></div><i>:</i>
+        <div><b class="fc-h">00</b><small>horas</small></div><i>:</i>
+        <div><b class="fc-m">00</b><small>min</small></div><i>:</i>
+        <div><b class="fc-s">00</b><small>seg</small></div>
+      </div>
+      <span class="fc-when">Sábado 21 de noviembre · Estadio Metropolitano, Barranquilla</span>
     </div>
-    <span class="fc-when">Sábado 21 de noviembre · Estadio Metropolitano, Barranquilla</span>
-  </div>
-  <div class="wrap fin-cta">
-    <div class="fin-side mg" data-reveal>
-      <img class="fin-shirt" src="img/final-mineiro-67a2f844.webp" alt="Camiseta del Atlético Mineiro" hidden>
-      <button type="button" class="fin-btn" data-support="Atlético Mineiro">Apoyo al Mineiro
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <div class="wrap fin-cta">
+      <div class="fin-side mg">
+        <img class="fin-shirt" src="img/final-mineiro-67a2f844.webp" alt="Camiseta de Atlético Mineiro" hidden>
+        <button type="button" class="fin-btn" data-support="Atlético Mineiro" data-key="mineiro">Apoyo al Mineiro
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="fin-side bo">
+        <img class="fin-shirt" src="img/final-boca-b957b0b7.webp" alt="Camiseta de Boca Juniors" hidden>
+        <button type="button" class="fin-btn" data-support="Boca Juniors" data-key="boca">Apoyo a Boca
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
     </div>
-    <div class="fin-side bo" data-reveal>
-      <img class="fin-shirt" src="img/final-boca-b957b0b7.webp" alt="Camiseta de Boca Juniors" hidden>
-      <button type="button" class="fin-btn" data-support="Boca Juniors">Apoyo a Boca
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <div class="wrap fin-poll" aria-live="polite">
+      <div class="fp-top"><span class="fp-t">¿Quién gana la final?</span><span class="fp-n">Elige tu equipo y vota</span></div>
+      <div class="fp-bar" style="--p:50%">
+        <div class="fp-mg"><b class="fp-pa">50%</b><span>Mineiro</span></div>
+        <div class="fp-bo"><span>Boca</span><b class="fp-pb">50%</b></div>
+        <i class="fp-knob" aria-hidden="true"></i>
+      </div>
+      <div class="fp-mine"></div>
     </div>
   </div>
-  </div>
-  <div class="wrap fin-poll" data-reveal aria-live="polite">
-    <div class="fp-top"><span class="fp-t">¿Quién gana la final?</span><span class="fp-n" id="fpN">Elige tu equipo y vota</span></div>
-    <div class="fp-bar" id="fpBar" style="--p:50%">
-      <div class="fp-mg"><b id="fpMg">50%</b><span>Mineiro</span></div>
-      <div class="fp-bo"><span>Boca</span><b id="fpBo">50%</b></div>
-      <i class="fp-knob" aria-hidden="true"></i>
+  <div class="fin-slide" data-final="lib" hidden>
+    <div class="fin-banner"><img src="img/final-banner-lib-43d955ec.webp" width="1678" height="937" alt="Final Copa Libertadores 2026 en Montevideo, 28 de noviembre: Palmeiras contra Estudiantes de La Plata" loading="lazy"></div>
+    <div class="wrap fin-count" aria-live="off">
+      <span class="fc-l">Faltan para la final</span>
+      <div class="fc-boxes">
+        <div><b class="fc-d">00</b><small>días</small></div><i>:</i>
+        <div><b class="fc-h">00</b><small>horas</small></div><i>:</i>
+        <div><b class="fc-m">00</b><small>min</small></div><i>:</i>
+        <div><b class="fc-s">00</b><small>seg</small></div>
+      </div>
+      <span class="fc-when">Sábado 28 de noviembre · Estadio Centenario, Montevideo</span>
     </div>
-    <div class="fp-mine" id="fpMine"></div>
+    <div class="wrap fin-cta">
+      <div class="fin-side mg">
+        <img class="fin-shirt" src="img/final-palmeiras-0ed6a76c.webp" alt="Camiseta de Palmeiras" hidden>
+        <button type="button" class="fin-btn" data-support="Palmeiras" data-key="palmeiras">Apoyo al Palmeiras
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="fin-side bo">
+        <img class="fin-shirt" src="img/final-estudiantes-escudo-e837b598.webp" alt="Camiseta de Estudiantes de La Plata" hidden>
+        <button type="button" class="fin-btn" data-support="Estudiantes de La Plata" data-key="estudiantes">Apoyo a Estudiantes
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+    <div class="wrap fin-poll" aria-live="polite">
+      <div class="fp-top"><span class="fp-t">¿Quién gana la final?</span><span class="fp-n">Elige tu equipo y vota</span></div>
+      <div class="fp-bar" style="--p:50%">
+        <div class="fp-mg"><b class="fp-pa">50%</b><span>Palmeiras</span></div>
+        <div class="fp-bo"><span>Estudiantes</span><b class="fp-pb">50%</b></div>
+        <i class="fp-knob" aria-hidden="true"></i>
+      </div>
+      <div class="fp-mine"></div>
+    </div>
   </div>
-  <p class="fin-sub" data-reveal>Elige tu equipo y ve sus camisetas · <a href="#catalogo">Ver todo el catálogo</a></p>
+  <p class="fin-sub">Elige tu equipo y ve sus camisetas · <a href="#catalogo">Ver todo el catálogo</a></p>
 </section>
 
 <!-- hero anterior (camisetas que hacen historia): oculto durante la final; para volver, cambiar class="hero-old" por class="hero" id="inicio" y quitar hidden -->
@@ -1484,7 +1545,9 @@ const loader = $('#loader');
 document.body.classList.add('lock');
 let lp = 0;
 const lpTimer = setInterval(() => { lp = Math.min(100, lp + 7 + Math.random() * 14); $('#loaderBar').style.transform = 'scaleX(' + lp / 100 + ')'; if (lp >= 100) clearInterval(lpTimer); }, 90);
+let loaderEnded = false;
 function endLoader() {
+  if (loaderEnded) return; loaderEnded = true;     // la carga y el respaldo de 4,5 s no deben correrlo dos veces
   if (!location.hash) scrollTo(0, 0);
   $('#loaderBar').style.transform = 'scaleX(1)';
   setTimeout(() => {
@@ -1652,46 +1715,63 @@ function setSec(s, keep) {
 }
 $('#secsw').addEventListener('click', e => { const b = e.target.closest('.sw'); if (!b || b.dataset.s === state.sec) return; setSec(b.dataset.s); render(true); });
 
-/* cuenta regresiva: hora estimada (CONMEBOL aún no la confirma); cambiar aquí si la anuncian */
-const FINAL_KICKOFF = new Date('2026-11-21T16:00:00-05:00');   // 4:00 p. m. de Colombia
+/* finales: Sudamericana y Libertadores, cada una con su cuenta regresiva y su barra de votos compartida */
+// horas estimadas (CONMEBOL aún no las confirma); cambiar aquí cuando las anuncien
+const FINALS = {
+  sud: { kickoff: new Date('2026-11-21T16:00:00-05:00'), teams: ['mineiro', 'boca'], names: { mineiro: 'Mineiro', boca: 'Boca' } },
+  lib: { kickoff: new Date('2026-11-28T16:00:00-05:00'), teams: ['palmeiras', 'estudiantes'], names: { palmeiras: 'Palmeiras', estudiantes: 'Estudiantes' } },
+};
+const FINAL_API = PANEL_URL.startsWith('http') ? PANEL_URL.replace(/\/t$/, '/f') : '';
+const finSlide = f => $('.fin-slide[data-final="' + f + '"]');
+$$('.fin-shirt').forEach(im => { if (im.getAttribute('src')) im.hidden = false; });
 (function countdown() {
-  const ms = FINAL_KICKOFF - Date.now(), pad = n => String(n).padStart(2, '0');
-  if (ms <= 0) {
-    $('#finCount').classList.add('live');
-    $('.fc-l').textContent = ms > -3 * 3600e3 ? '¡La final se juega hoy!' : '¡Se jugó la final!';
-    return;
+  const pad = n => String(n).padStart(2, '0');
+  for (const f in FINALS) {
+    const el = finSlide(f), ms = FINALS[f].kickoff - Date.now();
+    if (ms <= 0) { $('.fin-count', el).classList.add('live'); $('.fc-l', el).textContent = ms > -3 * 3600e3 ? '¡La final se juega hoy!' : '¡Se jugó la final!'; continue; }
+    const s = Math.floor(ms / 1000);
+    $('.fc-d', el).textContent = pad(Math.floor(s / 86400)); $('.fc-h', el).textContent = pad(Math.floor(s % 86400 / 3600));
+    $('.fc-m', el).textContent = pad(Math.floor(s % 3600 / 60)); $('.fc-s', el).textContent = pad(s % 60);
   }
-  const s = Math.floor(ms / 1000);
-  $('#fcD').textContent = pad(Math.floor(s / 86400)); $('#fcH').textContent = pad(Math.floor(s % 86400 / 3600));
-  $('#fcM').textContent = pad(Math.floor(s % 3600 / 60)); $('#fcS').textContent = pad(s % 60);
   setTimeout(countdown, 1000 - Date.now() % 1000);
 })();
-/* hero de la final: cada botón suma un voto a ese equipo (barra compartida) y lleva a sus camisetas */
-$$('.fin-shirt').forEach(im => { if (im.getAttribute('src')) im.hidden = false; });
-const FINAL_API = PANEL_URL.startsWith('http') ? PANEL_URL.replace(/\/t$/, '/f') : '';
-const FINAL_KEY = { 'Atlético Mineiro': 'mineiro', 'Boca Juniors': 'boca' };
-let poll = { mineiro: 0, boca: 0, mine: store.get('lc24_final', '') };
-function drawPoll(bump) {
-  const tot = poll.mineiro + poll.boca, p = tot ? Math.round(poll.mineiro / tot * 100) : 50;
-  const vis = Math.min(88, Math.max(12, p));                   // la barra nunca desaparece del todo
-  $('#fpBar').style.setProperty('--p', vis + '%');
-  $('#fpBar').classList.toggle('mg-s', vis < 26); $('#fpBar').classList.toggle('bo-s', vis > 74);
-  $('#fpMg').textContent = p + '%'; $('#fpBo').textContent = (100 - p) + '%';
-  $('#fpN').textContent = tot ? tot.toLocaleString('es-CO') + (tot === 1 ? ' voto' : ' votos') : 'Sé el primero en votar';
-  $('#fpMine').innerHTML = poll.mine ? 'Tú apoyas a <b>' + (poll.mine === 'boca' ? 'Boca' : 'Mineiro') + '</b>' + ' · puedes cambiar tu voto' : '';
-  if (bump) { const b = $('#fpBar'); b.classList.remove('bump'); void b.offsetWidth; b.classList.add('bump'); }
+// selector: abre la final más próxima que aún no se ha jugado
+function showFinal(f, anim) {
+  $$('.fin-slide').forEach(s => { const on = s.dataset.final === f; s.hidden = !on; s.classList.toggle('in', on && !!anim); });
+  $$('.fin-tabs button').forEach((b, i) => { const on = b.dataset.fin === f; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); if (on) $('.fin-tabs').dataset.i = i; });
 }
-drawPoll();
-if (FINAL_API) fetch(FINAL_API + '?vid=' + encodeURIComponent(VID)).then(r => r.json()).then(d => { if (d && typeof d.boca === 'number') { poll = d; store.set('lc24_final', d.mine || ''); drawPoll(); } }).catch(() => {});
+showFinal(Date.now() > FINALS.sud.kickoff - -3 * 3600e3 ? 'lib' : 'sud');
+$('.fin-tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b && !b.classList.contains('on')) showFinal(b.dataset.fin, true); });
+// votos
+const polls = {};
+for (const f in FINALS) { polls[f] = { mine: store.get('lc24_final_' + f, f === 'sud' ? store.get('lc24_final', '') : '') }; FINALS[f].teams.forEach(t => { polls[f][t] = 0; }); }
+function drawPoll(f, bump) {
+  const p0 = polls[f], [a, b] = FINALS[f].teams, el = finSlide(f), bar = $('.fp-bar', el);
+  const tot = p0[a] + p0[b], p = tot ? Math.round(p0[a] / tot * 100) : 50;
+  const vis = Math.min(88, Math.max(12, p));                   // la barra nunca desaparece del todo
+  bar.style.setProperty('--p', vis + '%');
+  bar.classList.toggle('mg-s', vis < 26); bar.classList.toggle('bo-s', vis > 74);
+  $('.fp-pa', el).textContent = p + '%'; $('.fp-pb', el).textContent = (100 - p) + '%';
+  $('.fp-n', el).textContent = tot ? tot.toLocaleString('es-CO') + (tot === 1 ? ' voto' : ' votos') : 'Sé el primero en votar';
+  $('.fp-mine', el).innerHTML = p0.mine ? 'Tú apoyas a <b>' + FINALS[f].names[p0.mine] + '</b> · puedes cambiar tu voto' : '';
+  if (bump) { bar.classList.remove('bump'); void bar.offsetWidth; bar.classList.add('bump'); }
+}
+const setPoll = (f, d) => { if (!d || FINALS[f].teams.some(t => typeof d[t] !== 'number')) return; polls[f] = d; store.set('lc24_final_' + f, d.mine || ''); drawPoll(f); };
+for (const f in FINALS) drawPoll(f);
+if (FINAL_API) fetch(FINAL_API + '?vid=' + encodeURIComponent(VID)).then(r => r.json()).then(d => { for (const f in FINALS) setPoll(f, d && d[f]); }).catch(() => {});
 $$('[data-support]').forEach(b => b.addEventListener('click', () => {
-  const t = b.dataset.support, k = FINAL_KEY[t];
-  if (poll.mine !== k) {                                        // se ve al instante; el servidor confirma después
-    if (poll.mine) poll[poll.mine] = Math.max(0, poll[poll.mine] - 1);
-    poll[k]++; poll.mine = k; store.set('lc24_final', k); drawPoll(true);
-    if (FINAL_API) fetch(FINAL_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ vid: VID, team: k }) })
-      .then(r => r.json()).then(d => { if (d && typeof d.boca === 'number') { poll = d; drawPoll(); } }).catch(() => {});
+  const t = b.dataset.support, k = b.dataset.key, f = b.closest('.fin-slide').dataset.final, p0 = polls[f];
+  if (p0.mine !== k) {                                          // se ve al instante; el servidor confirma después
+    if (p0.mine) p0[p0.mine] = Math.max(0, p0[p0.mine] - 1);
+    p0[k]++; p0.mine = k; store.set('lc24_final_' + f, k); drawPoll(f, true);
+    if (FINAL_API) fetch(FINAL_API, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify({ vid: VID, final: f, team: k }) })
+      .then(r => r.json()).then(d => setPoll(f, d)).catch(() => {});
   }
   setTimeout(() => {
+    if (!PRODUCTS.some(p => p.equipo === t)) {                  // equipo que aún no está en el catálogo: se pide por WhatsApp
+      openWA(waLink('¡Hola La Casaca 24! Quiero la camiseta de ' + t + ' para la final ⚽'));
+      return;
+    }
     setSec('actual'); state.cat = 'all'; state.q = ''; $('#q') && ($('#q').value = '');
     state.team = t; $('#team').value = t; renderChips(); render(true);
     $('#secsw').scrollIntoView({ behavior: 'smooth', block: 'start' });
